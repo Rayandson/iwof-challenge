@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
-import { getUserById, updateUser, deleteUser } from "@/lib/store";
-import { ok, noContent, badRequest, notFound } from "@/lib/http";
+import { getUserById, getUserByEmail, updateUser, deleteUser } from "@/lib/store";
+import { ok, noContent, badRequest, notFound, conflict } from "@/lib/http";
 import { userSchema } from "@/lib/schemas";
 
 export async function PUT(
@@ -15,6 +15,9 @@ export async function PUT(
     const result = userSchema.safeParse(body);
 
     if (!result.success) return badRequest(result.error.issues[0].message);
+
+    const existing = getUserByEmail(result.data.email);
+    if (existing && existing.id !== id) return conflict("A user with this email already exists");
 
     return ok(updateUser(id, result.data));
 }

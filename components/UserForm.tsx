@@ -4,11 +4,11 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createUser, updateUser } from "@/lib/api";
 import { userSchema } from "@/lib/schemas";
+import { pushToast } from "@/lib/toast";
 import type { User } from "@/lib/types";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Spinner from "@/components/ui/Spinner";
-import Toast from "@/components/ui/Toast";
 
 interface Props {
     initialData?: User;
@@ -22,12 +22,9 @@ export default function UserForm({ initialData }: Props) {
     const [name, setName] = useState(initialData?.name ?? "");
     const [email, setEmail] = useState(initialData?.email ?? "");
     const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
-    const [submitError, setSubmitError] = useState<string | null>(null);
 
     function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
-        setSubmitError(null);
-
         const result = userSchema.safeParse({
             name: name.trim(),
             email: email.trim(),
@@ -69,8 +66,9 @@ export default function UserForm({ initialData }: Props) {
 
                 router.push("/users");
             } catch (err) {
-                setSubmitError(
+                pushToast(
                     err instanceof Error ? err.message : "Algo deu errado",
+                    "error",
                 );
             }
         });
@@ -78,14 +76,6 @@ export default function UserForm({ initialData }: Props) {
 
     return (
         <form onSubmit={handleSubmit} noValidate>
-            {submitError && (
-                <Toast
-                    message={submitError}
-                    type="error"
-                    onClose={() => setSubmitError(null)}
-                />
-            )}
-
             <div className="flex flex-col gap-4">
                 <Input
                     id="name"
