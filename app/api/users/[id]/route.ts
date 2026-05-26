@@ -17,6 +17,7 @@ export async function PUT(
     if (!result.success) return badRequest(result.error.issues[0].message);
 
     const existing = getUserByEmail(result.data.email);
+    
     if (existing && existing.id !== id) return conflict("A user with this email already exists");
 
     return ok(updateUser(id, result.data));

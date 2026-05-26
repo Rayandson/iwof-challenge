@@ -19,7 +19,7 @@ npm test
 
 ## Decisões tomadas
 
-Os dados são armazenados em um `Map` singleton no servidor (`lib/store.ts`), sem dependências externas. Em ambientes serverless os dados resetam em cold starts, então, para o futuro, o store seria substituído por um banco de dados.
+Os dados são armazenados em um `Map` singleton no servidor (`lib/store.ts`), sem dependências externas. Em ambientes serverless como Vercel, cada instância de função tem seu próprio estado isolado, então, clientes diferentes podem ser roteados para instâncias diferentes e ver dados distintos. Além disso, cold starts resetam o store para os dados iniciais. Para produção, o store seria substituído por um banco de dados compartilhado.
 
 ## Bibliotecas utilizadas
 
