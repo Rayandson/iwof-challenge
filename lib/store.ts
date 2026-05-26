@@ -91,6 +91,6 @@ export function deleteUser(id: string): boolean {
     return users.delete(id);
 }
 
-export function _resetForTest() {
+export function resetStore() {
     users.clear();
 }

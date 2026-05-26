@@ -6,11 +6,11 @@ import {
     createUser,
     updateUser,
     deleteUser,
-    _resetForTest,
+    resetStore,
 } from "@/lib/store";
 
 beforeEach(() => {
-    _resetForTest();
+    resetStore();
 });
 
 describe("listUsers", () => {
@@ -87,18 +87,18 @@ describe("updateUser", () => {
     it("updates name and email", () => {
         const created = createUser({ name: "Dave", email: "dave@example.com" });
         const updated = updateUser(created.id, {
-            name: "David",
-            email: "david@example.com",
+            name: "Mateus",
+            email: "mateus@example.com",
         });
-        expect(updated?.name).toBe("David");
-        expect(updated?.email).toBe("david@example.com");
+        expect(updated?.name).toBe("Mateus");
+        expect(updated?.email).toBe("mateus@example.com");
     });
 
     it("preserves id and createdAt after update", () => {
-        const created = createUser({ name: "Eve", email: "eve@example.com" });
+        const created = createUser({ name: "Mari", email: "mari@example.com" });
         const updated = updateUser(created.id, {
-            name: "Eva",
-            email: "eva@example.com",
+            name: "Maria",
+            email: "maria@example.com",
         });
         expect(updated?.id).toBe(created.id);
         expect(updated?.createdAt).toBe(created.createdAt);
@@ -112,8 +112,8 @@ describe("deleteUser", () => {
 
     it("removes the user and returns true", () => {
         const created = createUser({
-            name: "Frank",
-            email: "frank@example.com",
+            name: "Marcos",
+            email: "marcos@example.com",
         });
         expect(deleteUser(created.id)).toBe(true);
         expect(getUserById(created.id)).toBeUndefined();

@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# User CRUD — Teste Técnico
 
-## Getting Started
+Aplicação de cadastro de usuários construída com Next.js 16, React 19 e TypeScript.
 
-First, run the development server:
+## Como executar
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Testes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test
+```
 
-## Learn More
+## Decisões tomadas
 
-To learn more about Next.js, take a look at the following resources:
+Os dados são armazenados em um `Map` singleton no servidor (`lib/store.ts`), sem dependências externas. Em ambientes serverless os dados resetam em cold starts, então, para o futuro, o store seria substituído por um banco de dados.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Bibliotecas utilizadas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Tailwind CSS 4** — estilização
+- **Zod** — validação de schema compartilhada entre API e formulário
+- **lucide-react** — ícones
+- **Vitest + React Testing Library** — testes unitários e de componente
 
-## Deploy on Vercel
+## Possíveis melhorias futuras
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Substituir o store in-memory por um banco de dados para persistência real
+- Paginação e busca na listagem de usuários
+- Testes de integração para os Route Handlers
